@@ -22,6 +22,7 @@ public class CameraRay : MonoBehaviour
     private void Awake()
     {
         _camera = GetComponent<Camera>();
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     // Update is called once per frame
@@ -105,6 +106,11 @@ public class CameraRay : MonoBehaviour
     {
         Vector2 transformPos = _currentColliderTransform.position;
         Vector2 mousePos = _camera.ScreenToWorldPoint(Input.mousePosition);
-        Debug.Log(Vector2.Distance(transformPos, mousePos));
+        
+        CircleShape circleShape = _currentColliderTransform.GetComponent<CircleShape>();
+        if (circleShape != null)
+        {
+            circleShape.Radius = Mathf.Clamp(Vector2.Distance(transformPos, mousePos), .65f, 3.5f);
+        }
     }
 }
